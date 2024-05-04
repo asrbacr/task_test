@@ -4,33 +4,32 @@
 // которые являются общими делителями для всех указанных числе.
 // В примере это будет [2, 3, 6].
 
-const array = [42, 12, 18];
-let minNumb = Infinity;
-const tempArray = [];
+// const array = [42, 12, 18];
+const array = [120, 180, 240];
 
-for (const numb of array) {
-  if (numb < minNumb) minNumb = numb;
-}
+function commonDivisor(array) {
+  const arrayLength = array.length;
+  const tempArray = [];
+  let minNumb = Infinity;
 
-for (let i = 2; i <= minNumb; i++) {
+  for (const numb of array) {
+    if (numb < minNumb) minNumb = numb;
+  }
+
+  for (let i = 2; i <= minNumb; i++) {
     for (const num of array) {
-        if (num % i == 0) {
-            tempArray.push(i);
-        }
+      if (num % i == 0) tempArray.push(i);
     }
+  }
+
+  const resultArray = tempArray.filter((item, index) => {
+    return (
+      tempArray.indexOf(item) === index &&
+      tempArray.lastIndexOf(item) - index === arrayLength - 1
+    );
+  });
+
+  return resultArray;
 }
-console.log(tempArray);
 
-const uniqArray = tempArray.reduce((idx, numb ) => {
-    if (idx.includes(numb)) {
-        return idx;
-    }
-    return [...idx, numb];
-}, []);
-console.log(uniqArray);
-
-let count = tempArray.reduce(function (array, idx) {
-  return array[idx] ? ++array[idx] : (array[idx] = 1), array;
-}, {});
-
-console.log(count);
+console.log(commonDivisor(array));
